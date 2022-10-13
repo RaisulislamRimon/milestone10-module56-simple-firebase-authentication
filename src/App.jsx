@@ -49,13 +49,16 @@ const App = () => {
   };
   return (
     <div className="App">
-      <button onClick={handleGoogleSignIn}>Google sign in</button>
-      <div>
-        <h1>{user.displayName}</h1>
-        <p>{user.email}</p>
-        <img src={user.photoURL} alt={user.displayName} />
-        <button onClick={handleSignOut}>Sign out</button>
-      </div>
+      {user.email ? (
+        <div>
+          <button onClick={handleSignOut}>Sign out</button>
+          <h1>{user.displayName}</h1>
+          <p>{user.email}</p>
+          <img src={user.photoURL} alt={user.displayName} />
+        </div>
+      ) : (
+        <button onClick={handleGoogleSignIn}>Google sign in</button>
+      )}
     </div>
   );
 };
