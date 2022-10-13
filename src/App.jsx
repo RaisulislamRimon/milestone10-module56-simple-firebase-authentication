@@ -8,6 +8,7 @@ import {
   GithubAuthProvider,
 } from "firebase/auth";
 import app from "./firebaseConfig/firebaseConfig";
+import LoginState from "./components/LoginState/LoginState";
 
 const App = () => {
   const [user, setUser] = React.useState({});
@@ -16,6 +17,7 @@ const App = () => {
   const githubProvider = new GithubAuthProvider();
 
   const auth = getAuth(app);
+
   const handleGoogleSignIn = () => {
     signInWithPopup(auth, googleProvider)
       .then((result) => {
@@ -24,6 +26,8 @@ const App = () => {
         const token = credential.accessToken;
         // The signed-in user info.
         const user = result.user;
+        const { displayName } = user;
+        console.log(displayName);
         // ...
         console.log(user);
         setUser(user);
@@ -94,6 +98,7 @@ const App = () => {
       ) : (
         <button onClick={handleGithubLogIn}>Github log in</button>
       )}
+      <div></div>
     </div>
   );
 };
