@@ -1,9 +1,16 @@
 import React from "react";
 import "./App.css";
-import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
+import {
+  getAuth,
+  signInWithPopup,
+  GoogleAuthProvider,
+  signOut,
+} from "firebase/auth";
 import app from "./firebaseConfig/firebaseConfig";
 
 const App = () => {
+  const [user, setUser] = React.useState({});
+
   const provider = new GoogleAuthProvider();
   const auth = getAuth(app);
   const handleGoogleSignIn = () => {
@@ -16,6 +23,7 @@ const App = () => {
         const user = result.user;
         // ...
         console.log(user);
+        setUser(user);
       })
       .catch((error) => {
         // Handle Errors here.
@@ -29,9 +37,25 @@ const App = () => {
         console.error(error);
       });
   };
+
+  const handleSignOut = () => {
+    signOut(auth)
+      .then(() => {
+        setUser({});
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
   return (
     <div className="App">
       <button onClick={handleGoogleSignIn}>Google sign in</button>
+      <div>
+        <h1>{user.displayName}</h1>
+        <p>{user.email}</p>
+        <img src={user.photoURL} alt={user.displayName} />
+        <button onClick={handleSignOut}>Sign out</button>
+      </div>
     </div>
   );
 };
