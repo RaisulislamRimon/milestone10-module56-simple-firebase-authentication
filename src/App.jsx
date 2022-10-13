@@ -41,7 +41,7 @@ const App = () => {
       });
   };
 
-  const handleGoogleSignOut = () => {
+  const handleSignOut = () => {
     signOut(auth)
       .then(() => {
         setUser({});
@@ -50,7 +50,7 @@ const App = () => {
         console.log(error);
       });
   };
-  const handleGithubLogin = () => {
+  const handleGithubLogIn = () => {
     signInWithPopup(auth, githubProvider)
       .then((result) => {
         // This gives you a GitHub Access Token. You can use it to access the GitHub API.
@@ -60,6 +60,7 @@ const App = () => {
         // The signed-in user info.
         const user = result.user;
         // ...
+        setUser(user);
       })
       .catch((error) => {
         // Handle Errors here.
@@ -72,11 +73,15 @@ const App = () => {
         // ...
       });
   };
+
+  // const handleGithubLogOut= () => {
+
+  // }
   return (
     <div className="App">
       {user.email ? (
         <div>
-          <button onClick={handleGoogleSignOut}>Sign out</button>
+          <button onClick={handleSignOut}>Sign out</button>
           <h1>{user.displayName}</h1>
           <p>{user.email}</p>
           <img src={user.photoURL} alt={user.displayName} />
@@ -84,7 +89,11 @@ const App = () => {
       ) : (
         <button onClick={handleGoogleSignIn}>Google sign in</button>
       )}
-      <button onClick={handleGithubLogin}>Github login</button>
+      {user.displayName ? (
+        <button onClick={handleSignOut}>Github log out</button>
+      ) : (
+        <button onClick={handleGithubLogIn}>Github log in</button>
+      )}
     </div>
   );
 };
